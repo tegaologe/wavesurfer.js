@@ -457,6 +457,7 @@ class Renderer extends EventEmitter<RendererEvents> {
 
     // Custom rendering function
     if (options.renderFunction) {
+      console.log('Passing channels to renderFunction:', channelData.length) // Debugging
       options.renderFunction(channelData, ctx)
       return
     }
@@ -674,8 +675,11 @@ class Renderer extends EventEmitter<RendererEvents> {
       }
     } else {
       // Render a single waveform for the first two channels (left and right)
-      const channels = [audioData.getChannelData(0)]
-      if (audioData.numberOfChannels > 1) channels.push(audioData.getChannelData(1))
+      const channels = [
+        audioData.getChannelData(0),
+        audioData.numberOfChannels > 1 ? audioData.getChannelData(1) : audioData.getChannelData(0),
+        audioData.numberOfChannels > 2 ? audioData.getChannelData(2) : audioData.getChannelData(0),
+      ]
       this.renderChannel(channels, this.options, width, 0)
     }
 

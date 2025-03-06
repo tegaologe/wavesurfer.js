@@ -510,7 +510,7 @@ class Renderer extends EventEmitter<RendererEvents> {
       progressCtx.globalCompositeOperation = 'source-in'
       progressCtx.fillStyle = this.convertColorValues(options.progressColor)
       // This rectangle acts as a mask thanks to the composition method
-      progressCtx.fillRect(0, 0, canvas.width, canvas.height)
+      //progressCtx.fillRect(0, 0, canvas.width, canvas.height)
       progressContainer.appendChild(progressCanvas)
     }
   }
@@ -675,11 +675,7 @@ class Renderer extends EventEmitter<RendererEvents> {
       }
     } else {
       // Render a single waveform for the first two channels (left and right)
-      const channels = [
-        audioData.getChannelData(0),
-        audioData.numberOfChannels > 1 ? audioData.getChannelData(1) : audioData.getChannelData(0),
-        audioData.numberOfChannels > 2 ? audioData.getChannelData(2) : audioData.getChannelData(0),
-      ]
+      const channels = Array.from({ length: audioData.numberOfChannels }, (_, i) => audioData.getChannelData(i))
       this.renderChannel(channels, this.options, width, 0)
     }
 
